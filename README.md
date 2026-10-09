@@ -9,7 +9,7 @@
 | Campo | Respuesta |
 |---|---|
 | Equipo | Neuronova|
-| Zona / Centro(s) | Car/cartagena de indias|
+| Zona / Centro(s) | ZCar/cartagena de indias|
 | Tipo de producto (Tabla 1 del documento técnico) | |
 | Integrantes (solo nombres completos) | Yeisy camila ortiz ruiz , Kerlin gomez garcias, Andrea guadalupe velez soto |
 | Enlace al demo web (si aplica) | |
