@@ -12,7 +12,7 @@
 | Zona / Centro(s) | ZCar/cartagena de indias|
 | Tipo de producto (Tabla 1 del documento técnico) | |
 | Integrantes (solo nombres completos) | Yeisy camila ortiz ruiz , Kerlin gomez garcias, Andrea guadalupe velez soto |
-| Enlace al demo web (si aplica) |file:///C:/Users/USUARIO/neuro%20juega.html| 
+| Enlace al demo web (si aplica) |file:///C:/Users/USUARIO/Downloads/neuro%20juega.html| 
 
 **No escriba aquí cédulas, teléfonos ni correos.** Este repositorio se hace público el viernes 9 de octubre a las 12:00 m.
 
