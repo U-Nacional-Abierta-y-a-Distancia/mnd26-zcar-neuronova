@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Neuro Juega</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 25px 15px;
+      font-family: Arial, sans-serif;
+      background: #f1efff;
+      color: #303044;
+    }
+
+    main {
+      max-width: 680px;
+      margin: auto;
+      padding: 25px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 15px #25204a18;
+    }
+
+    h1 {
+      margin-bottom: 5px;
+      color: #6554c0;
+    }
+
+    .presentacion {
+      color: #626174;
+      line-height: 1.6;
+    }
+
+    .grupo {
+      display: flex;
+      justify-content: center;
+      align-items: end;
+      gap: 28px;
+      padding: 18px 12px 12px;
+      margin: 20px 0;
+      text-align: center;
+      background: #f7f4ff;
+      border-radius: 12px;
+    }
+
+    .estudiante {
+      width: 82px;
+      color: #55536a;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .muneco {
+      position: relative;
+      width: 72px;
+      height: 112px;
+      margin: 0 auto 7px;
+    }
+
+    .cabeza {
+      position: absolute;
+      z-index: 2;
+      top: 5px;
+      left: 19px;
+      width: 36px;
+      height: 38px;
+      border-radius: 48%;
+      background: var(--piel);
+    }
+
+    .cabello {
+      position: absolute;
+      z-index: 3;
+      top: 2px;
+      left: 17px;
+      width: 40px;
+      height: 17px;
+      border-radius: 50% 50% 25% 20%;
+      background: var(--pelo);
+    }
+
+    .ojos {
+      position: absolute;
+      top: 21px;
+      left: 9px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: #302b35;
+      box-shadow: 13px 0 #302b35;
+    }
+
+    .sonrisa {
+      position: absolute;
+      top: 29px;
+      left: 14px;
+      width: 9px;
+      height: 5px;
+      border-bottom: 2px solid #704c48;
+      border-radius: 50%;
+    }
+
+    .camisa {
+      position: absolute;
+      top: 42px;
+      left: 9px;
+      width: 54px;
+      height: 42px;
+      padding-top: 15px;
+      border-radius: 13px 13px 6px 6px;
+      background: var(--camisa);
+      color: white;
+      font-size: 9px;
+      font-weight: bold;
+    }
+
+    .brazo {
+      position: absolute;
+      top: 47px;
+      left: 2px;
+      width: 9px;
+      height: 30px;
+      border-radius: 8px;
+      background: var(--camisa);
+      transform: rotate(8deg);
+    }
+
+    .brazo.derecho {
+      left: 61px;
+      transform: rotate(-8deg);
+    }
+
+    .pantalon {
+      position: absolute;
+      top: 82px;
+      left: 18px;
+      width: 36px;
+      height: 23px;
+      background: #424258;
+      clip-path: polygon(
+        0 0, 100% 0, 90% 100%, 56% 100%,
+        50% 42%, 43% 100%, 8% 100%
+      );
+    }
+
+    .progreso {
+      height: 8px;
+      margin: 12px 0 22px;
+      overflow: hidden;
+      background: #e5e2f0;
+      border-radius: 10px;
+    }
+
+    #barra {
+      width: 0;
+      height: 100%;
+      background: #7767d8;
+      transition: width 0.3s;
+    }
+
+    #situacion {
+      line-height: 1.7;
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 13px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 9px;
+      background: #6b5bc7;
+      color: white;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #5143a5;
+    }
+
+    #resultado {
+      padding: 14px;
+      margin-top: 18px;
+      background: #f4f1ff;
+      border-radius: 10px;
+      line-height: 1.6;
+    }
+
+    .oculto {
+      display: none;
+    }
+
+    footer {
+      margin-top: 20px;
+      color: #777487;
+      text-align: center;
+      font-size: 12px;
+    }
+
+    @media (max-width: 420px) {
+      .grupo {
+        gap: 8px;
+      }
+
+      .estudiante {
+        width: 76px;
+      }
+
+      .muneco {
+        margin-bottom: 2px;
+        transform: scale(.9);
+        transform-origin: bottom center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <h1>Neuro Juega</h1>
+
+    <p class="presentacion">
+      En este juego tendrás que tomar decisiones que pueden
+      mejorar o afectar la convivencia de un equipo.
+      Lee cada situación y piensa antes de responder.
+    </p>
+
+    <div class="grupo" aria-label="Estudiantes de la UNAD">
+      <div class="estudiante">
+        <div class="muneco"
+          style="--piel:#b87552; --pelo:#30251f; --camisa:#d94a50">
+          <div class="cabeza">
+            <span class="ojos"></span>
+            <span class="sonrisa"></span>
+          </div>
+          <div class="cabello"></div>
+          <div class="brazo"></div>
+          <div class="brazo derecho"></div>
+          <div class="camisa">UNAD</div>
+          <div class="pantalon"></div>
+        </div>
+        Estudiante 1
+      </div>
+
+      <div class="estudiante">
+        <div class="muneco"
+          style="--piel:#e1ae88; --pelo:#422d27; --camisa:#6a65bf">
+          <div class="cabeza">
+            <span class="ojos"></span>
+            <span class="sonrisa"></span>
+          </div>
+          <div class="cabello"></div>
+          <div class="brazo"></div>
+          <div class="brazo derecho"></div>
+          <div class="camisa">UNAD</div>
+          <div class="pantalon"></div>
+        </div>
+        Estudiante 2
+      </div>
+
+      <div class="estudiante">
+        <div class="muneco"
+          style="--piel:#d39670; --pelo:#1f2730; --camisa:#438c78">
+          <div class="cabeza">
+            <span class="ojos"></span>
+            <span class="sonrisa"></span>
+          </div>
+          <div class="cabello"></div>
+          <div class="brazo"></div>
+          <div class="brazo derecho"></div>
+          <div class="camisa">UNAD</div>
+          <div class="pantalon"></div>
+        </div>
+        Estudiante 3
+      </div>
+    </div>
+
+    <section id="inicio">
+      <h2>¿Comenzamos?</h2>
+      <p>
+        Ayuda a un grupo de estudiantes a resolver algunos
+        problemas. Tus decisiones cambiarán la confianza del equipo.
+      </p>
+      <button onclick="empezarJuego()">Empezar partida</button>
+    </section>
+
+    <section id="partida" class="oculto">
+      <p id="numero"></p>
+
+      <div class="progreso">
+        <div id="barra"></div>
+      </div>
+
+      <h2 id="titulo"></h2>
+      <p id="situacion"></p>
+      <div id="opciones"></div>
+      <div id="resultado" class="oculto"></div>
+
+      <button
+        id="continuar"
+        class="oculto"
+        onclick="siguienteEscena()">
+        Continuar
+      </button>
+    </section>
+
+    <footer>
+      Proyecto educativo sobre ética y toma de decisiones.
+    </footer>
+  </main>
+
+  <script>
+    const escenas = [
+      {
+        titulo: "Un trabajo en grupo",
+        situacion:
+          "Estamos terminando un trabajo de la universidad. " +
+          "Me doy cuenta de que Sam hizo casi todas las actividades, " +
+          "pero Alex quiere llevarse todo el reconocimiento. " +
+          "¿Qué haría yo en esta situación?",
+        opciones: [
+          {
+            texto: "Hablar con el grupo para reconocer el trabajo de todos.",
+            puntos: 10,
+            mensaje:
+              "Buena decisión. Reconocer el esfuerzo de cada persona " +
+              "ayuda a construir un equipo más justo."
+          },
+          {
+            texto: "Quedarme callada para no tener problemas.",
+            puntos: -5,
+            mensaje:
+              "Evitar la conversación puede parecer más fácil, " +
+              "pero el problema sigue sin resolverse."
+          }
+        ]
+      },
+      {
+        titulo: "Escuchar a los demás",
+        situacion:
+          "Sam propone una idea, pero nadie le presta atención. " +
+          "Después, Sam se muestra desanimado. " +
+          "¿Qué podría hacer para mejorar la situación?",
+        opciones: [
+          {
+            texto: "Escuchar su idea y permitir que explique su propuesta.",
+            puntos: 10,
+            mensaje:
+              "Escuchar también es una forma de respeto. " +
+              "Todas las personas merecen la oportunidad de participar."
+          },
+          {
+            texto: "Decirle que no se preocupe y seguir trabajando.",
+            puntos: -5,
+            mensaje:
+              "Aunque no quieras causar daño, ignorar lo que siente " +
+              "puede hacer que se sienta excluido."
+          }
+        ]
+      },
+      {
+        titulo: "Repartir las responsabilidades",
+        situacion:
+          "El grupo tiene que corregir el trabajo antes de entregarlo. " +
+          "Algunas personas están haciendo demasiado y otras casi nada. " +
+          "¿Cómo organizaría las tareas?",
+        opciones: [
+          {
+            texto: "Repartir las actividades y acordar quién hará cada una.",
+            puntos: 10,
+            mensaje:
+              "Organizar las responsabilidades permite trabajar " +
+              "con más claridad y evita que una sola persona cargue con todo."
+          },
+          {
+            texto: "Dejar que una persona haga todo porque es más rápido.",
+            puntos: -5,
+            mensaje:
+              "Puede parecer una solución rápida, pero no fomenta " +
+              "la participación ni el compromiso de todo el grupo."
+          }
+        ]
+      }
+    ];
+
+    let escenaActual = 0;
+    let confianza = 50;
+
+    function empezarJuego() {
+      escenaActual = 0;
+      confianza = 50;
+
+      document.getElementById("inicio").classList.add("oculto");
+      document.getElementById("partida").classList.remove("oculto");
+
+      mostrarEscena();
+    }
+
+    function mostrarEscena() {
+      const escena = escenas[escenaActual];
+
+      document.getElementById("numero").textContent =
+        "Situación " + (escenaActual + 1) +
+        " de " + escenas.length;
+
+      document.getElementById("barra").style.width =
+        (escenaActual / escenas.length * 100) + "%";
+
+      document.getElementById("titulo").textContent = escena.titulo;
+      document.getElementById("situacion").textContent = escena.situacion;
+
+      const opciones = document.getElementById("opciones");
+      opciones.innerHTML = "";
+
+      document.getElementById("resultado").classList.add("oculto");
+      document.getElementById("continuar").classList.add("oculto");
+
+      escena.opciones.forEach(function(opcion) {
+        const boton = document.createElement("button");
+        boton.textContent = opcion.texto;
+
+        boton.onclick = function() {
+          elegirOpcion(opcion);
+        };
+
+        opciones.appendChild(boton);
+      });
+
+      actualizarConfianza();
+    }
+
+    function elegirOpcion(opcion) {
+      confianza += opcion.puntos;
+      confianza = Math.max(0, Math.min(100, confianza));
+
+      actualizarConfianza();
+
+      const resultado = document.getElementById("resultado");
+      resultado.textContent = opcion.mensaje;
+      resultado.classList.remove("oculto");
+
+      document.querySelectorAll("#opciones button").forEach(function(boton) {
+        boton.disabled = true;
+        boton.style.opacity = "0.75";
+      });
+
+      document.getElementById("continuar").classList.remove("oculto");
+    }
+
+    function actualizarConfianza() {
+      document.getElementById("numero").textContent =
+        "Situación " + (escenaActual + 1) +
+        " de " + escenas.length +
+        " | Confianza del equipo: " + confianza;
+    }
+
+    function siguienteEscena() {
+      escenaActual++;
+
+      if (escenaActual < escenas.length) {
+        mostrarEscena();
+      } else {
+        terminarJuego();
+      }
+    }
+
+    function terminarJuego() {
+      document.getElementById("barra").style.width = "100%";
+      document.getElementById("numero").textContent = "Partida terminada";
+      document.getElementById("titulo").textContent = "¡Fin del juego!";
+
+      document.getElementById("situacion").textContent =
+        "Tu puntuación final de confianza fue " + confianza +
+        " sobre 100. Piensa en cómo tus decisiones influyeron " +
+        "en la convivencia del equipo.";
+
+      document.getElementById("opciones").innerHTML = "";
+      document.getElementById("resultado").classList.add("oculto");
+      document.getElementById("continuar").classList.add("oculto");
+
+      const boton = document.createElement("button");
+      boton.textContent = "Jugar otra vez";
+      boton.onclick = empezarJuego;
+
+      document.getElementById("opciones").appendChild(boton);
+    }
+
+    // Melodía original de estilo videojuego retro.
+    let contextoAudio;
+    let musicaIniciada = false;
+    let notaActual = 0;
+
+    const melodia = [
+      523.25, 659.25, 783.99, 1046.50,
+      783.99, 659.25, 587.33, 698.46,
+      880.00, 783.99, 698.46, 587.33,
+      523.25, 587.33, 659.25, 523.25
+    ];
+
+    async function iniciarMusica() {
+      if (musicaIniciada) return;
+
+      const AudioContexto =
+        window.AudioContext || window.webkitAudioContext;
+
+      if (!AudioContexto) return;
+
+      if (!contextoAudio) {
+        contextoAudio = new AudioContexto();
+      }
+
+      try {
+        await contextoAudio.resume();
+
+        if (contextoAudio.state !== "running") return;
+
+        musicaIniciada = true;
+        tocarNota();
+        setInterval(tocarNota, 200);
+      } catch (error) {
+        // Algunos navegadores esperan al primer clic o tecla.
+      }
+    }
+
+    function tocarNota() {
+      const oscilador = contextoAudio.createOscillator();
+      const volumen = contextoAudio.createGain();
+      const ahora = contextoAudio.currentTime;
+
+      oscilador.type = "square";
+      oscilador.frequency.value = melodia[notaActual];
+
+      volumen.gain.setValueAtTime(0.0001, ahora);
+      volumen.gain.exponentialRampToValueAtTime(0.12, ahora + 0.04);
+      volumen.gain.exponentialRampToValueAtTime(0.0001, ahora + 0.17);
+
+      oscilador.connect(volumen);
+      volumen.connect(contextoAudio.destination);
+
+      oscilador.start(ahora);
+      oscilador.stop(ahora + 0.19);
+
+      notaActual = (notaActual + 1) % melodia.length;
+    }
+
+    window.addEventListener("load", iniciarMusica);
+    document.addEventListener("pointerdown", iniciarMusica);
+    document.addEventListener("keydown", iniciarMusica);
+  </script>
+</body>
+</html>
+
+
